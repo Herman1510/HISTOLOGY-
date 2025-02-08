@@ -815,6 +815,33 @@
 
             // Loop through questions
             Object.keys(correctAnswers).forEach((key) => {
+ <!-- Include JavaScript code here -->
+    <script>
+        // Track quiz start time
+        const startTime = Date.now();
+
+        // Correct answers
+        const correctAnswers = {
+            q1: "d",
+            q2: "b",
+            // Add more answers as needed
+        };
+
+        // Handle quiz submission
+        document.getElementById("quizForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Calculate time spent
+            const endTime = Date.now();
+            const timeSpent = ((endTime - startTime) / 1000).toFixed(2);
+
+            let studentName = document.getElementById("studentName").value;
+            let answers = {};
+            let score = 0;
+            let totalQuestions = Object.keys(correctAnswers).length;
+
+            // Loop through questions
+            Object.keys(correctAnswers).forEach((key) => {
                 let selectedOption = document.querySelector(`input[name="${key}"]:checked`);
                 if (selectedOption) {
                     answers[key] = selectedOption.value;
@@ -844,8 +871,8 @@
                 resultHTML += `
                     <tr>
                         <td>Question ${index + 1}</td>
-                        <td>${correctAnswers[key]}</td>
-                        <td>${answers[key] || "Not answered"}</td>
+                        <td>${correctAnswers[key].toUpperCase()}</td>
+                        <td>${answers[key] ? answers[key].toUpperCase() : "Not answered"}</td>
                     </tr>
                 `;
             });
