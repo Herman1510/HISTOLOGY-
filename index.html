@@ -833,6 +833,25 @@
 
             // Calculate time spent
             const endTime = Date.now();
+
+    <!-- Include JavaScript code here -->
+    <script>
+        // Track quiz start time
+        const startTime = Date.now();
+
+        // Correct answers
+        const correctAnswers = {
+            q1: "d",
+            q2: "b",
+            // Add more answers as needed
+        };
+
+        // Handle quiz submission
+        document.getElementById("quizForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Calculate time spent
+            const endTime = Date.now();
             const timeSpent = ((endTime - startTime) / 1000).toFixed(2);
 
             let studentName = document.getElementById("studentName").value;
@@ -855,7 +874,7 @@
             let grade = percentage >= 80 ? "A" : percentage >= 70 ? "B" : percentage >= 60 ? "C" : percentage >= 50 ? "D" : "F";
             let comment = grade === "A" ? "Excellent!" : grade === "B" ? "Good Job!" : grade === "C" ? "Fair Effort" : grade === "D" ? "Needs Improvement" : "Better luck next time!";
 
-            // Display results to the student
+            // Display results to the student in a single horizontal table
             let resultHTML = `
                 <p><strong>Name:</strong> ${studentName}</p>
                 <p><strong>Score:</strong> ${score}/${totalQuestions} (${percentage.toFixed(2)}%)</p>
@@ -864,15 +883,25 @@
                 <p><strong>Time Spent:</strong> ${timeSpent} seconds</p>
                 <h3>Correct Answers</h3>
                 <table id="quizResultsTable">
-                    <tr><th>Question</th><th>Correct Answer</th><th>Your Answer</th></tr>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Score</th>
+                    </tr>
             `;
 
             Object.keys(correctAnswers).forEach((key, index) => {
+                let studentAnswer = answers[key] || "Not answered";
+                let isCorrect = studentAnswer.toUpperCase() === correctAnswers[key].toUpperCase();
+                let scoreText = isCorrect ? "Correct" : "Incorrect";
+
                 resultHTML += `
                     <tr>
                         <td>Question ${index + 1}</td>
+                        <td>${studentAnswer.toUpperCase()}</td>
                         <td>${correctAnswers[key].toUpperCase()}</td>
-                        <td>${answers[key] ? answers[key].toUpperCase() : "Not answered"}</td>
+                        <td>${scoreText}</td>
                     </tr>
                 `;
             });
