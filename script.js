@@ -107,11 +107,11 @@ const correctAnswers = {
 
 // Handle quiz submission
 document.getElementById("quizForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
+    event.preventDefault();  // Prevent page refresh
+    
     // Calculate time spent
     const endTime = Date.now();
-    const timeSpent = ((endTime - startTime) / 1000).toFixed(2);
+    const timeSpent = ((endTime - startTime) / 1000).toFixed(2); // Ensure time is in seconds
 
     let studentName = document.getElementById("studentName").value;
     let answers = {};
@@ -132,15 +132,24 @@ document.getElementById("quizForm").addEventListener("submit", function(event) {
     let percentage = (score / totalQuestions) * 100;
     let grade = percentage >= 80 ? "A" : percentage >= 70 ? "B" : percentage >= 60 ? "C" : percentage >= 50 ? "D" : "F";
     
-    // Display score and grade only
+    // Display only score and grade
     let resultHTML = `
         <p><strong>Name:</strong> ${studentName}</p>
         <p><strong>Score:</strong> ${score}/${totalQuestions} (${percentage.toFixed(2)}%)</p>
         <p><strong>Grade:</strong> ${grade}</p>
         <p><strong>Time Spent:</strong> ${timeSpent} seconds</p>
     `;
+
+    // Display the result
     document.getElementById("result").innerHTML = resultHTML;
 
-    // Reset form
-    document.getElementById("quizForm").reset();
+    // Disable the form after submission to prevent multiple submissions
+    document.getElementById("quizForm").querySelectorAll('input').forEach((input) => {
+        input.disabled = true;
+    });
+
+    // Optional: Reset form after a delay (only after result is displayed)
+    // setTimeout(() => {
+    //     document.getElementById("quizForm").reset();
+    // }, 2000);
 });
